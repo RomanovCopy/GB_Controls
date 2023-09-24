@@ -68,7 +68,6 @@ def save_notes():
     try:
         with open("notes.json", "w", encoding="utf-8") as file:
             json.dump(notes, file, ensure_ascii=False, indent=4)
-        print("Заметки успешно сохранены в файле 'notes.json'.")
     except FileNotFoundError:
         print("Ошибка: Файл 'notes.json' не найден.")
     except Exception as e:
