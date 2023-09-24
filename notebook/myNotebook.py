@@ -6,7 +6,7 @@ def create_note():
     title = input("Введите заголовок заметки: ")
     body = input("Введите текст заметки: ")
     note = {
-        "id": len(notes) + 1,
+        "id": generate_unique_id(),
         "title": title,
         "body": body,
         "timestamp": get_current_timestamp()
@@ -15,11 +15,19 @@ def create_note():
     save_notes()
     print("Заметка успешно создана!")
 
+#генератор уникального Id
+def generate_unique_id():
+    existing_ids = set(note['id'] for note in notes)
+    new_id = 1
+    while new_id in existing_ids:
+        new_id += 1
+    return new_id
+
 # Функция для редактирования существующей заметки
 def edit_note():
-    note_id = int(input("Введите номер заметки для редактирования: "))
-    if note_id <= len(notes):
-        note = notes[note_id - 1]
+    note_id = int(input("Введите Id заметки для редактирования: "))
+    note=find_note_by_id(note_id)
+    if note is not None:
         new_title = input(f"Текущий заголовок: {note['title']}\nВведите новый заголовок: ")
         new_body = input(f"Текущий текст заметки: {note['body']}\nВведите новый текст: ")
         note["title"] = new_title
@@ -28,17 +36,18 @@ def edit_note():
         save_notes()
         print("Заметка успешно отредактирована!")
     else:
-        print("Заметка с таким номером не найдена.")
+        print("Заметка с таким Id не найдена.")
 
 # Функция для удаления заметки
 def delete_note():
-    note_id = int(input("Введите номер заметки для удаления: "))
-    if note_id <= len(notes):
-        deleted_note = notes.pop(note_id - 1)
+    note_id = int(input("Введите Id заметки для удаления: "))
+    note=find_note_by_id(note_id)
+    if note is not None:
+        notes.remove(note)
         save_notes()
-        print(f"Заметка '{deleted_note['title']}' успешно удалена!")
+        print(f"Заметка '{note['title']}' успешно удалена!")
     else:
-        print("Заметка с таким номером не найдена.")
+        print("Заметка с таким Id не найдена.")
 
 # Функция для вывода списка всех заметок
 def list_notes():
@@ -49,29 +58,48 @@ def list_notes():
         sorted_notes = sorted(notes, key=lambda x: x['timestamp'], reverse=True)
         
         for note in sorted_notes:
-            print(f"{note['id']}. {note['title']} (Дата/время: {note['timestamp']})")
-            print(note['body'])
+            print("---------")
+            print(f"Id:\t{note['id']}.\nTitle:\t{note['title']}\nLast Modified Time:\t{note['timestamp']}")
+            print(f"Note:\t{note['body']}")
             print()
 
 # Функция для сохранения заметок в JSON-файл
 def save_notes():
-    with open("notes.json", "w") as file:
-        for note in notes:
-            json.dump(note, file, indent=4)
-            file.write(";")
+    try:
+        with open("notes.json", "w", encoding="utf-8") as file:
+            json.dump(notes, file, ensure_ascii=False, indent=4)
+        print("Заметки успешно сохранены в файле 'notes.json'.")
+    except FileNotFoundError:
+        print("Ошибка: Файл 'notes.json' не найден.")
+    except Exception as e:
+        print(f"Произошла ошибка при сохранении заметок: {str(e)}")
 # Функция для получения текущей даты и времени в строковом формате
 def get_current_timestamp():
     from datetime import datetime
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+#поиск записи по Id
+def find_note_by_id(note_id):
+    for note in notes:
+        if note["id"] == note_id:
+            return note
+    return None
+
 # Главная функция приложения
 def main():
     global notes
-    if os.path.exists("notes.json"):
-        with open("notes.json", "r") as file:
-            notes = json.load(file)
-    else:
-        notes = []
+    try:
+        if os.path.exists("notes.json"):
+            with open("notes.json", "r", encoding="utf-8") as file:
+                notes = json.load(file)
+        else:
+            notes = []
+    except FileNotFoundError:
+        print("Файл 'notes.json' не найден.")
+    except json.JSONDecodeError as e:
+        print(f"Ошибка при разборе JSON: {str(e)}")
+    except Exception as e:
+        print(f"Произошла ошибка при загрузке заметок: {str(e)}")
 
     while True:
         print("\nМеню:")
@@ -99,4 +127,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
