@@ -45,7 +45,10 @@ def list_notes():
     if not notes:
         print("Список заметок пуст.")
     else:
-        for note in notes:
+        # Сортировка заметок по дате (по убыванию)
+        sorted_notes = sorted(notes, key=lambda x: x['timestamp'], reverse=True)
+        
+        for note in sorted_notes:
             print(f"{note['id']}. {note['title']} (Дата/время: {note['timestamp']})")
             print(note['body'])
             print()
