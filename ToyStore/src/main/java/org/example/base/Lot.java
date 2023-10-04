@@ -50,7 +50,7 @@ public class Lot implements Serializable {
     private int idGenerate(){
         Date currentDate = new Date();
         long timestamp = currentDate.getTime();
-        return  (int) (timestamp / 1000);
+        return  (int) (timestamp / 10);
     }
 
 
@@ -58,7 +58,10 @@ public class Lot implements Serializable {
 
     @Override
     public String toString() {
-        return super.toString();
+
+        return "Id *** \t"+id+"\nName *** \t"+name+"\nЦена *** \t"+price+"\nОписание : " +
+                "\n\r"+description+"\n";
+
     }
 
 }

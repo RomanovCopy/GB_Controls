@@ -4,7 +4,10 @@ import org.example.base.Lot;
 import org.example.wrappers.LotteryLot;
 import org.example.interfaces.ILottery;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 public class Lottery implements ILottery {
 
@@ -12,6 +15,26 @@ public class Lottery implements ILottery {
 
     public Lottery() {
         lotsToBePlayed=new PriorityQueue<>();
+    }
+
+    @Override
+    public void createLottery(ArrayList<Lot> lots){
+        Scanner scanner=new Scanner(System.in);
+        int weight=0;
+        for(Lot lot:lots){
+            System.out.println("Для отмены : -1");
+            System.out.println("\n"+lot);
+            System.out.print("Вес лота : ");
+            if(scanner.hasNextInt())
+                weight=scanner.nextInt();
+            if(weight<0){
+                scanner.close();
+                return null;
+            }
+            addLotToLottery(lot, weight);
+            System.out.println("Добавлено");
+        }
+        scanner.close();
     }
 
 
