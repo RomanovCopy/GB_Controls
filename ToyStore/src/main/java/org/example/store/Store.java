@@ -1,21 +1,12 @@
 package org.example.store;
 
-import org.example.interfaces.ILottery;
-import org.example.interfaces.IToy;
 
-public class Store implements ILottery {
-    @Override
-    public void addToyToLottery(IToy toy, int weight) {
+public class Store {
 
-    }
 
-    @Override
-    public void removeToyFromLottery(IToy toy) {
+    public Store() {
 
     }
 
-    @Override
-    public IToy drawToy() {
-        return null;
-    }
+
 }

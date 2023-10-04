@@ -1,22 +1,27 @@
 package org.example.interfaces;
 
+import org.example.base.Lot;
+
+import java.util.PriorityQueue;
+
 public interface ILottery {
-    /**
-     * Метод для добавления игрушки в лотерею с указанием ее веса
-     * @param toy Игрушка для добавления
-     * @param weight Вес игрушки
-     */
-    void addToyToLottery(IToy toy, int weight);
 
     /**
-     * Метод для удаления игрушки из лотереи
-     * @param toy Игрушка для удаления
+     * Метод для добавления товара в лотерею с указанием ее веса
+     * @param lot товар для добавления
+     * @param weight Вес товара
      */
-    void removeToyFromLottery(IToy toy);
+    void addLotToLottery(Lot lot, int weight);
 
     /**
-     * Метод для проведения розыгрыша и получения случайной игрушки
-     * @return Случайная игрушка из лотереи
+     * Метод для удаления товара из лотереи
+     * @param lot товара для удаления
      */
-    IToy drawToy();
+    void removeLotFromLottery(Lot lot);
+
+    /**
+     * Метод для проведения розыгрыша и получения случайного товара
+     * @return Случайный товар из лотереи
+     */
+    Lot drawLot();
 }
