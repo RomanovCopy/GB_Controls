@@ -23,4 +23,8 @@ public class DiskIO<T> implements IDiskIO<T> {
         }
         return object;
     }
+
+    @Override
+    public void close() throws Exception {
+    }
 }

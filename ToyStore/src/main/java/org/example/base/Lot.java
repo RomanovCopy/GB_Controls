@@ -6,13 +6,14 @@ import java.util.Date;
 
 public class Lot implements Serializable {
 
-    private final int id=idGenerate();
+    private int id;
     private String name;
     private Double price;
     private String description;
 
 
-    public Lot(String name, Double price, String description) {
+    public Lot(int id, String name, Double price, String description) {
+        this.id=id;
         this.name=name;
         this.price=price;
         this.description=description;
@@ -45,16 +46,6 @@ public class Lot implements Serializable {
     public int getId() {
         return id;
     }
-
-
-    private int idGenerate(){
-        Date currentDate = new Date();
-        long timestamp = currentDate.getTime();
-        return  (int) (timestamp / 10);
-    }
-
-
-
 
     @Override
     public String toString() {
