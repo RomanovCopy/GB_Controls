@@ -2,34 +2,25 @@ package org.example.utils;
 
 import org.example.interfaces.IDiskIO;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 
-public class DiskIO implements IDiskIO {
+public class DiskIO<T> implements IDiskIO<T> {
 
     @Override
-    public void writeObjectToFile(Serializable object, String filePath) {
-        try (FileOutputStream fileOut = new FileOutputStream(filePath);
-             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
-            objectOut.writeObject(object);
-            System.out.println("Объект успешно записан на диск.");
-        } catch (IOException e) {
-            System.out.println("Ошибка при записи объекта на диск: " + e.getMessage());
+    public <T> void writeObjectToFile(T object, String filePath) throws IOException {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+            objectOutputStream.writeObject(object);
         }
     }
 
     @Override
-    public Serializable readObjectFromFile(String filePath) {
-        try (FileInputStream fileIn = new FileInputStream(filePath);
-             ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
-            T object = (T) objectIn.readObject();
-            System.out.println("Объект успешно считан с диска.");
-            return object;
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Ошибка при считывании объекта с диска: " + e.getMessage());
-            return null;
+    public <T> T readObjectFromFile(String filePath)throws IOException, ClassNotFoundException {
+        T object;
+        try (FileInputStream fileInputStream = new FileInputStream(filePath);
+             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+            object = (T) objectInputStream.readObject();
         }
+        return object;
     }
 }

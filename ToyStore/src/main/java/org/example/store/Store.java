@@ -2,12 +2,9 @@ package org.example.store;
 
 
 import org.example.base.Lot;
-import org.example.store.actions.Lottery;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 
 public class Store {
 
@@ -33,7 +30,7 @@ public class Store {
      * @param lot добавляемый лот
      */
     public void addLot(Lot lot){
-        products.add(lot)
+        products.add(lot);
     }
 
     /**
@@ -56,5 +53,20 @@ public class Store {
     public <T> T createAction(Class<T> action) throws IllegalAccessException,
             InstantiationException {
         return action.newInstance();
+    }
+
+
+    public void saveProducts(){
+
+    }
+
+    public void readProducrts(){
+
+    }
+    public void saveLottery(){
+
+    }
+    public void readLottery(){
+
     }
 }

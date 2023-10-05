@@ -2,17 +2,18 @@ package org.example.interfaces;
 
 import org.example.base.Lot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
-public interface ILottery {
+public interface ILottery extends Serializable {
 
     /**
      * создание лотереи из коллекции лотов
      * @param lots коллекция лотов
      */
-    public void createLottery(ArrayList<Lot> lots)ж
+    public void createLottery(ArrayList<Lot> lots);
 
     /**
      * Метод для добавления товара в лотерею с указанием ее веса

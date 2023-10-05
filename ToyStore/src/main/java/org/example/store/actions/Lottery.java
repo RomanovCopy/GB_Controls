@@ -29,7 +29,7 @@ public class Lottery implements ILottery {
                 weight=scanner.nextInt();
             if(weight<0){
                 scanner.close();
-                return null;
+                return;
             }
             addLotToLottery(lot, weight);
             System.out.println("Добавлено");
