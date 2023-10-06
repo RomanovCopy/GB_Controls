@@ -67,11 +67,11 @@ public class Main {
         System.out.println("Третий приз :");
         Toy toy_3=(Toy) lottery.drawLot();
         System.out.println(toy_3.toString());
-        //проводим розыгрыш второго приза
+        //проводим розыгрыш четвертого приза
         System.out.println("Четвертый приз :");
         Toy toy_4=(Toy) lottery.drawLot();
         System.out.println(toy_4.toString());
-        //проводим розыгрыш третьего приза
+        //проводим розыгрыш пятого приза
         System.out.println("Пятый приз :");
         Toy toy_5=(Toy) lottery.drawLot();
         System.out.println(toy_5.toString());
