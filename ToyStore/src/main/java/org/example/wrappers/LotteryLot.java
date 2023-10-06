@@ -2,7 +2,9 @@ package org.example.wrappers;
 
 import org.example.base.Lot;
 
-public class LotteryLot implements Comparable<LotteryLot> {
+import java.io.Serializable;
+
+public class LotteryLot implements Comparable<LotteryLot>, Serializable {
     protected int weight;
     protected Lot lot;
 
@@ -23,6 +25,6 @@ public class LotteryLot implements Comparable<LotteryLot> {
 
     @Override
     public int compareTo(LotteryLot o) {
-        return this.getWeight()-o.getWeight();
+        return Integer.compareUnsigned(o.getWeight(), this.getWeight());
     }
 }

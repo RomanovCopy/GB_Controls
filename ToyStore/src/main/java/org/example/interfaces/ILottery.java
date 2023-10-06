@@ -1,6 +1,7 @@
 package org.example.interfaces;
 
 import org.example.base.Lot;
+import org.example.wrappers.LotteryLot;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,6 +9,16 @@ import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public interface ILottery extends Serializable {
+
+
+    /**
+     * получение товаров доступных в лотерее
+     */
+    public PriorityQueue<LotteryLot>getLotsToBePayed();
+    /**
+     * очистка лотереи
+     */
+    public void clearLottery();
 
     /**
      * создание лотереи из коллекции лотов

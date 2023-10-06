@@ -15,10 +15,11 @@ public class Store {
      * коллеция лотов, ассортимент магазина
      */
     private List<Lot> products;
-    private  List<ILottery>lotteries;
+    private  List<Lottery>lotteries;
 
     public Store() {
         products = new ArrayList<>();
+        lotteries=new ArrayList<>();
     }
 
     /**
@@ -28,6 +29,25 @@ public class Store {
      */
     public List<Lot> getProducts() {
         return products;
+    }
+
+    /**
+     * получение полной коллекции всех лотов в ассортименте
+     *
+     * @return коллекция лотов(ArrayList)
+     */
+    public List<Lottery> getLotteries() {
+        return lotteries;
+    }
+
+    /**
+     * добавление лотереи в коллекцию лотерей
+     * @param lottery лотерея
+     */
+    public void addLottery(Lottery lottery){
+        if(lottery!=null){
+            lotteries.add(lottery);
+        }
     }
 
     /**
@@ -59,33 +79,10 @@ public class Store {
     }
 
     /**
-     * Создание новой акции
-     *
-     * @param action тип акции
-     * @param <T>
-     * @return экземпляр акции заданного типа
-     * @throws IllegalAccessException
-     * @throws InstantiationException
-     */
-    public <T> T createAction(Class<T> action) throws IllegalAccessException, InstantiationException {
-        return action.newInstance();
-    }
-
-    /**
-     * добавление лотерей в коллекцию
-     * @param lottery добавляемая лотерея
-     */
-    public void addLottery(ILottery lottery){
-        if(lotteries==null)
-            lotteries=new ArrayList<>();
-        lotteries.add(lottery);
-    }
-
-    /**
      * удаление лотереи из коллекции
      * @param lottery удаляемая лотерея
      */
-    public void removeLottery(ILottery lottery){
+    public void removeLottery(Lottery lottery){
         if(lotteries!=null && lotteries.contains(lottery)){
             lotteries.remove(lottery);
         }
@@ -105,9 +102,10 @@ public class Store {
     /**
      * сохранение текущей коллекции товаров на диск
      */
-    public void saveProducts() {
+    public void saveProducts(String pathToFile) {
         try (DiskIO<ArrayList<Lot>> disk = new DiskIO<>()) {
-            disk.writeObjectToFile(products, "StoreProducts.dat");
+            disk.writeObjectToFile(products, pathToFile);
+            System.out.println("Данные успешно сохранены.");
         } catch (IOException e) {
             System.out.println("Не удалось сохранить коллекцию товаров магазина. ( " + e.getMessage() + " )");
         } catch (Exception e) {
@@ -119,9 +117,9 @@ public class Store {
     /**
      * заполнение коллекции товаров с диска
      */
-    public void readProducrts() {
+    public void readProducrts(String pathToFile) {
         try (DiskIO<ArrayList<Lot>> disk = new DiskIO<>()) {
-            products = (ArrayList<Lot>) disk.readObjectFromFile("StoreProducts.dat");
+            products = (ArrayList<Lot>) disk.readObjectFromFile(pathToFile);
         } catch (ClassNotFoundException e) {
             System.out.println("Коллекция товаров магазина не найдена. (" + " " + e.getMessage() + " )");
         } catch (IOException e) {
@@ -152,9 +150,9 @@ public class Store {
     /**
      * сохранение коллекции лотерей на диск
      */
-    public void saveLottery() {
-        try (DiskIO<ArrayList<ILottery>> disk = new DiskIO<>()) {
-            disk.writeObjectToFile(lotteries, "StoreLotteries.dat");
+    public void saveLottery(String pathToFile) {
+        try (DiskIO<ArrayList<Lottery>> disk = new DiskIO<>()) {
+            disk.writeObjectToFile(lotteries, pathToFile);
         } catch (IOException e) {
             System.out.println("Не удалось сохранить коллекцию лотерей магазина. ( " + e.getMessage() + " )");
         } catch (Exception e) {
@@ -165,9 +163,9 @@ public class Store {
     /**
      * заполнение коллекции лотерей с диска
      */
-    public void readLottery() {
-        try (DiskIO<ArrayList<ILottery>> disk = new DiskIO<>()) {
-            lotteries = (ArrayList<ILottery>) disk.readObjectFromFile("StoreLotteries.dat");
+    public void readLottery(String pathToFile) {
+        try (DiskIO<ArrayList<Lottery>> disk = new DiskIO<>()) {
+            lotteries = (ArrayList<Lottery>) disk.readObjectFromFile(pathToFile);
         } catch (ClassNotFoundException e) {
             System.out.println("Коллекция лотерей не найдена. (" + " " + e.getMessage() + " )");
         } catch (IOException e) {
@@ -176,6 +174,7 @@ public class Store {
             System.out.println("Что-то пошло не так! ( " + e.getMessage() + " )");
         }
     }
+
 
     /**
      * Генерация уникального ID на основе текущей даты и коллекции products
