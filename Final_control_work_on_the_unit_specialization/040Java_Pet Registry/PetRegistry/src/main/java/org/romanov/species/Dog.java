@@ -5,7 +5,7 @@ import org.romanov.model.Animal;
 import java.util.Date;
 
 public class Dog extends Animal {
-    public Dog(String name, Date dateOfBirth) {
-        super(name, dateOfBirth);
+    public Dog() {
+        super();
     }
 }
