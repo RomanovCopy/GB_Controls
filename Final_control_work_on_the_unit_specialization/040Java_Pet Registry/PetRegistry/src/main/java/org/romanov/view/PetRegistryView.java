@@ -29,8 +29,8 @@ public class PetRegistryView {
      */
     public void displayMenu() {
         System.out.println("Основное меню.");
-        for(String number:menu){
-            System.out.println(number);
+        for(String item:menu){
+            System.out.println(item);
         }
     }
 
@@ -61,6 +61,19 @@ public class PetRegistryView {
     public void displayMessage(String message) {
         System.out.println(message);
         System.out.println("\n");
+    }
+
+
+    /**
+     * вывод в консоль словаря HashMap<Integer, String>
+     * @param map выводимый словарь
+     */
+    public void displayingNumberedList(HashMap<Integer, String>map){
+        if(map!=null && !map.isEmpty()){
+            for(int item: map){
+                System.out.println(item+"   "+map.get(item));
+            }
+        }
     }
 
     /**

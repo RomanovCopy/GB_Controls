@@ -7,7 +7,6 @@ import java.lang.reflect.Method;
 import org.romanov.Interfaces.ICreator;
 import org.romanov.model.Animal;
 import org.romanov.model.PetRegistryModel;
-import org.romanov.utilities.Creator;
 import org.romanov.utilities.PetRegistryIO;
 import org.romanov.view.PetRegistryView;
 
@@ -19,12 +18,22 @@ public class PetRegistryController {
     private ArrayList<String>requestNewAnimal;
     private ArrayList<String>responseNewAnimal;
 
+    /**
+     * пронумерованный список имен видов
+     */
+    private HashMap<Integer, String>species;
+
 
     public PetRegistryController(PetRegistryModel model, PetRegistryView view) {
-
         this.model=model;
         this.view=view;
-
+        species=new HashMap<>();
+        for(Integer number:model.getSpecies().keySet()){
+            species.put(number,model.getSpecies().get(number).getAnimalInfo());
+        }
+        view.displayMenu();
+        view.displayMessage("Выберите номер пункта из меню: ");
+        processUserInput();
     }
 
     /**
@@ -32,7 +41,6 @@ public class PetRegistryController {
      */
     public void processUserInput() {
         Scanner scanner = new Scanner(System.in);
-
         while (true) {
             view.displayMenu();
             int choice = scanner.nextInt();
@@ -67,7 +75,8 @@ public class PetRegistryController {
      * новое животное
      */
     private void addNewAnimal() {
-        
+
+        Animal animal=model.createAnimal()
     }
 
     /**

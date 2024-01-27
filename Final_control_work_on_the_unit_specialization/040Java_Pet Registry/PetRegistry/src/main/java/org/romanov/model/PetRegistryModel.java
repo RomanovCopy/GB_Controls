@@ -1,6 +1,7 @@
 package org.romanov.model;
 
 import org.romanov.Interfaces.ICreator;
+import org.romanov.factory.Creator;
 import org.romanov.utilities.PetRegistryIO;
 
 import java.io.File;
@@ -10,13 +11,6 @@ import java.util.*;
 
 public class PetRegistryModel {
 
-    /**
-     * коллекция доступных видов
-     */
-    public ArrayList<String>getSpecies{
-        return species;
-    }
-    private ArrayList<String> species;
 
     /**
      * коллекция животных занесенных в реестр
@@ -27,6 +21,11 @@ public class PetRegistryModel {
     private ArrayList<Animal>animals;
 
     private String filePath;
+    private Creator creator;
+
+    public HashMap<Integer, ICreator>getSpecies(){
+        return creator.getSpecies();
+    }
 
 
     /**
@@ -34,7 +33,7 @@ public class PetRegistryModel {
      */
     public PetRegistryModel() {
         animals=loadAnimals();
-
+        creator=new Creator();
     }
 
 
@@ -52,13 +51,20 @@ public class PetRegistryModel {
     }
 
     /**
-     * получение названия вида по ключу(если ключ не существует - null)
-     * @param index ключ вида
-     * @return выбранный вид
+     * создание экземпляра вида животного
+     * @param key индекс вида
+     * @return Animal
      */
-    public String getCurrentSpecies(Integer index){
-        return availableAnimalSpecies(species).get(index);
+    public Animal createAnimal(int key){
+        Animal animal = creator.createAnimal(key);
+        if(animal==null){
+            System.out.println("Животное не создано.");
+        }
+        return animal;
     }
+
+
+
 
     /**
      * сортировка по дате рождения
@@ -67,39 +73,6 @@ public class PetRegistryModel {
         Collections.sort(animals, Comparator.comparing(Animal::getDateOfBirth));
     }
 
-    /**
-     * преобразуем множество в отсортированный и пронумерованный словарь видов
-     * ( применяется для отображения в консоли  )
-     * @param set исходное множество видов
-     * @return отсортирова
-     * */
-    public HashMap<Integer, String> availableAnimalSpecies(HashSet<String> set){
-        HashMap<Integer, String>map=new HashMap<>();
-        // Преобразуем HashSet в TreeSet для сортировки элементов
-        TreeSet<String> sortedSet = new TreeSet<>(set);
-        // Используем итератор для пронумерованного вывода
-        Iterator<String> iterator = sortedSet.iterator();
-        int index = 1;
-        while (iterator.hasNext()) {
-            map.put(index, iterator.next());
-            index++;
-        }
-        return map;
-    }
-
-    private HashMap<Integer, String> availableAnimalSpecies(){
-        Class <?>clazz= ICreator.class;
-        Method[]methods= clazz.getDeclaredMethods();
-        int index=1;
-        for (Method method : methods) {
-            String methodName = method.getName();
-            String modifiedMethodName = methodName.replace("Creator", "");
-            modifiedMethodName = Character.toUpperCase(modifiedMethodName.charAt(0))
-                    + modifiedMethodName.substring(1);
-            System.out.println(index + "  " + modifiedMethodName);
-            index++;
-        }
-    }
 
     /**
      * загрузка с диска коллекции животных
@@ -107,7 +80,7 @@ public class PetRegistryModel {
      */
     public ArrayList<Animal> loadAnimals() {
         if (new File(filePath).isFile()) {
-            RegistryLoader<Animal> registryLoader = new RegistryLoader<>(filePath);
+            PetRegistryIO<Animal> registryLoader = new PetRegistryIO<>(filePath);
             try {
                 List<Animal> loadedAnimals = registryLoader.loadRegistry();
                 return new ArrayList<>(loadedAnimals);
@@ -124,7 +97,7 @@ public class PetRegistryModel {
      * @return результат выполнения: true - успешно, false - ошибка
      */
     public boolean saveAnimals(ArrayList<Animal>animals){
-        RegistryLoader<Animal> registryLoader = new RegistryLoader<>(filePath);
+        PetRegistryIO<Animal> registryLoader = new PetRegistryIO<>(filePath);
         try{
             return saveAnimals(animals);
         }catch (IOException e){

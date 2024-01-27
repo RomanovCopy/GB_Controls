@@ -5,6 +5,6 @@ import org.romanov.model.Animal;
 
 public class Horse extends Animal{
     public Horse() {
-        super();
+        setSpecies("Horse");
     }
 }

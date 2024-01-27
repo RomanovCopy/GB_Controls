@@ -4,7 +4,7 @@ import org.romanov.model.Animal;
 
 public class Camel extends Animal{
     public Camel() {
-        super();
+        setSpecies("Camel");
     }
 
     public void moving() {
