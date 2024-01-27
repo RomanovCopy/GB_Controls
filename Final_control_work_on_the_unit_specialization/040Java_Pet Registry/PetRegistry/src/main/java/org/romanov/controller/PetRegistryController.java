@@ -1,11 +1,13 @@
 package org.romanov.controller;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.lang.reflect.Method;
 
+import org.romanov.Interfaces.ICreator;
 import org.romanov.model.Animal;
 import org.romanov.model.PetRegistryModel;
+import org.romanov.utilities.Creator;
 import org.romanov.utilities.PetRegistryIO;
 import org.romanov.view.PetRegistryView;
 
@@ -14,11 +16,15 @@ public class PetRegistryController {
     private PetRegistryModel model;
     private PetRegistryView view;
 
+    private ArrayList<String>requestNewAnimal;
+    private ArrayList<String>responseNewAnimal;
+
 
     public PetRegistryController(PetRegistryModel model, PetRegistryView view) {
 
         this.model=model;
         this.view=view;
+
     }
 
     /**
@@ -112,6 +118,23 @@ public class PetRegistryController {
         List<Animal> loadedAnimals = petRegistryIO.loadRegistry();
         if (loadedAnimals != null) {
             model.getAnimals().addAll(loadedAnimals);
+        }
+    }
+
+    /**
+     * вывод в консоль всех доступных видов животных
+     */
+    private void printAvailableAnimalSpecies(){
+        Class <?>clazz= ICreator.class;
+        Method[]methods= clazz.getDeclaredMethods();
+        int index=1;
+        for (Method method : methods) {
+            String methodName = method.getName();
+            String modifiedMethodName = methodName.replace("Creator", "");
+            modifiedMethodName = Character.toUpperCase(modifiedMethodName.charAt(0))
+                    + modifiedMethodName.substring(1);
+            System.out.println(index + "  " + modifiedMethodName);
+            index++;
         }
     }
 

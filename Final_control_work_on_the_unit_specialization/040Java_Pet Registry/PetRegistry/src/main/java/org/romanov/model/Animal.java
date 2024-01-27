@@ -3,6 +3,7 @@ package org.romanov.model;
 import java.time.LocalDateTime;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 
 public class Animal {
 
@@ -81,11 +82,39 @@ public class Animal {
     }
     protected double weight;
 
+    /**
+     * добавление команды
+     * @param name имя команды
+     * @param description описание команды
+     * @return результат добавления: true - успешно, false - ошибка
+     */
+    public boolean addExecutableCommand(String name, String description){
+        if(executableCommands==null){
+            executableCommands=new HashMap<>();
+        }
+        if(executableCommands.keySet().contains(name)){
+            System.out.println("Такая команда уже существует.\nОтказ в добавлении.\n");
+            return false;
+        }
+        executableCommands.put(name, description);
+        return true;
+    }
+
+    /**
+     * полный список команд
+     * @return словарь HashMap<String,String>именами и описаниями команд/>
+     */
+    public HashMap<String, String>getExecutableCommands(){
+        return executableCommands;
+    }
+    protected HashMap<String, String> executableCommands;
+
 
 
     public Animal() {
 
     }
+
 
 
 

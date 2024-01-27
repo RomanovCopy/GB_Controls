@@ -1,10 +1,9 @@
 package org.romanov.species;
 
+import org.romanov.Interfaces.*;
 import org.romanov.model.Animal;
 
-import java.util.Date;
-
-public class Horse extends Animal {
+public class Horse extends Animal{
     public Horse() {
         super();
     }

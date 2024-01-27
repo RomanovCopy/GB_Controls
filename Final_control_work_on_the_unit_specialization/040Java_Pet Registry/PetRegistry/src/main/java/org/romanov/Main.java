@@ -2,10 +2,7 @@ package org.romanov;
 
 import org.romanov.controller.PetRegistryController;
 import org.romanov.model.PetRegistryModel;
-import org.romanov.utilities.PackageScanner;
 import org.romanov.view.PetRegistryView;
-
-import java.io.IOException;
 
 public class Main {
 

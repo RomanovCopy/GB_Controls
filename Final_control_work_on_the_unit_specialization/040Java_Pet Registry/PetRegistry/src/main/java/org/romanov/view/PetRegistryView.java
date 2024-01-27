@@ -2,18 +2,36 @@ package org.romanov.view;
 
 import org.romanov.model.Animal;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class PetRegistryView {
 
+    private List<String>menu;
+
     public PetRegistryView() {
+        menu = Arrays.asList(
+                "1   Новое животное",
+                "2   Доступные команды",
+                "3   Добавить новую команду",
+                "4   Все животные",
+                "5   Сортировка по дате рождения",
+                "6   Всего животных",
+                "-------------------------------",
+                "0   Выход"
+        );
     }
 
     /**
      * вывод меню в консоль
      */
     public void displayMenu() {
-
+        System.out.println("Основное меню.");
+        for(String number:menu){
+            System.out.println(number);
+        }
     }
 
     /**
@@ -21,7 +39,19 @@ public class PetRegistryView {
      * @param animal животное
      */
     public void displayAnimalCommands(Animal animal) {
-        // Ваш код для вывода команд животного на консоль
+        if(animal.getExecutableCommands()==null ||
+        animal.getExecutableCommands().isEmpty()){
+            System.out.println("Доступных команд нет\n");
+            return;
+        }
+        System.out.println("Список доступных команд\n");
+        int index=1;
+        for(String name:animal.getExecutableCommands().keySet()){
+            System.out.println(index+"\t"+name+"\t"+animal.getExecutableCommands().
+                    get(name)+"\t");
+            index++;
+        }
+        System.out.println("\n");
     }
 
     /**
@@ -30,6 +60,7 @@ public class PetRegistryView {
      */
     public void displayMessage(String message) {
         System.out.println(message);
+        System.out.println("\n");
     }
 
     /**
@@ -45,5 +76,6 @@ public class PetRegistryView {
             System.out.printf("%-15s %-15s %-15s %-5d%n",
                     animal.getName(), animal.getSpecies(), animal.getGender(), animal.getDateOfBirth());
         }
+        System.out.println("\n");
     }
 }

@@ -1,18 +1,23 @@
 package org.romanov.model;
 
-import org.romanov.utilities.PackageScanner;
+import org.romanov.Interfaces.ICreator;
+import org.romanov.utilities.PetRegistryIO;
 
+import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.*;
 
 public class PetRegistryModel {
 
     /**
-     * множество доступных видов
-     *
-     * @return
+     * коллекция доступных видов
      */
-    private HashSet<String> species;
+    public ArrayList<String>getSpecies{
+        return species;
+    }
+    private ArrayList<String> species;
+
     /**
      * коллекция животных занесенных в реестр
      */
@@ -21,17 +26,15 @@ public class PetRegistryModel {
     }
     private ArrayList<Animal>animals;
 
+    private String filePath;
+
 
     /**
      * конструктор класса
      */
     public PetRegistryModel() {
-        try {
-            species = findSpecies();
-        } catch (ClassNotFoundException | IOException e) {
-            e.printStackTrace();
-        }
-        animals=new ArrayList<>();
+        animals=loadAnimals();
+
     }
 
 
@@ -56,34 +59,6 @@ public class PetRegistryModel {
     public String getCurrentSpecies(Integer index){
         return availableAnimalSpecies(species).get(index);
     }
-
-    /**
-     * поиск доступных видов
-     *
-     * @return
-     * @throws ClassNotFoundException
-     * @throws IOException
-     */
-    private HashSet<String> findSpecies() throws ClassNotFoundException, IOException {
-        try {
-            PackageScanner packageScanner = new PackageScanner();
-            HashSet<String> set = new HashSet<>();
-            if (packageScanner.getClasses() != null && !packageScanner.getClasses().isEmpty()) {
-                for (Class<?> clazz : packageScanner.getClasses()) {
-                    if (clazz != null) {
-                        var array = clazz.getName().split("\\.");
-                        String name = array[array.length - 1];
-                        set.add(name);
-                    }
-                }
-            }
-            return set;
-        } catch (ClassNotFoundException | IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
 
     /**
      * сортировка по дате рождения
@@ -112,4 +87,50 @@ public class PetRegistryModel {
         return map;
     }
 
+    private HashMap<Integer, String> availableAnimalSpecies(){
+        Class <?>clazz= ICreator.class;
+        Method[]methods= clazz.getDeclaredMethods();
+        int index=1;
+        for (Method method : methods) {
+            String methodName = method.getName();
+            String modifiedMethodName = methodName.replace("Creator", "");
+            modifiedMethodName = Character.toUpperCase(modifiedMethodName.charAt(0))
+                    + modifiedMethodName.substring(1);
+            System.out.println(index + "  " + modifiedMethodName);
+            index++;
+        }
+    }
+
+    /**
+     * загрузка с диска коллекции животных
+     * @return ArrayList<Animal>/>
+     */
+    public ArrayList<Animal> loadAnimals() {
+        if (new File(filePath).isFile()) {
+            RegistryLoader<Animal> registryLoader = new RegistryLoader<>(filePath);
+            try {
+                List<Animal> loadedAnimals = registryLoader.loadRegistry();
+                return new ArrayList<>(loadedAnimals);
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("Не удалось загрузить данные.");
+                e.printStackTrace();
+            }
+        } return new ArrayList<>();
+    }
+
+    /**
+     * сохранение на диск коллекции животных
+     * @param animals
+     * @return результат выполнения: true - успешно, false - ошибка
+     */
+    public boolean saveAnimals(ArrayList<Animal>animals){
+        RegistryLoader<Animal> registryLoader = new RegistryLoader<>(filePath);
+        try{
+            return saveAnimals(animals);
+        }catch (IOException e){
+            System.out.println("Не удалось сохранить данные.");
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
