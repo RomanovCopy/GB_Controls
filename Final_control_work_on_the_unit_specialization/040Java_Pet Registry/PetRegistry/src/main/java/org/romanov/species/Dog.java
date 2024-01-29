@@ -2,7 +2,9 @@ package org.romanov.species;
 
 import org.romanov.model.Animal;
 
-public class Dog extends Animal{
+import java.io.Serializable;
+
+public class Dog extends Animal implements Serializable {
     public Dog() {
         setSpecies("Dog");
     }

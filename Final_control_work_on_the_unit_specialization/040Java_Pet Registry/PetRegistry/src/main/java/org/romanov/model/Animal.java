@@ -1,10 +1,11 @@
 package org.romanov.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
-public class Animal {
+public class Animal implements Serializable {
 
 
     /**
@@ -118,7 +119,7 @@ public class Animal {
 
 
     public Animal() {
-
+        executableCommands=new HashMap<>();
     }
 
 

@@ -33,10 +33,10 @@ public class PetRegistryController implements Closeable {
                     model.createAnimal();
                     break;
                 case 2:
-                    displayAnimalCommands();
+                    model.displayAnimalCommands();
                     break;
                 case 3:
-                    trainNewCommand();
+                    model.trainNewCommand();
                     break;
                 case 4:
                     model.displayAllAnimals();
@@ -46,6 +46,9 @@ public class PetRegistryController implements Closeable {
                     break;
                 case 6:
                     model.displayTotalAnimalCount();
+                    break;
+                case 7:
+                    model.saveAnimals(model.getAnimals());
                     break;
                 case 0:
                     close();
@@ -57,19 +60,7 @@ public class PetRegistryController implements Closeable {
 
 
 
-    /**
-     * вывод доступных команд животного
-     */
-    private void displayAnimalCommands() {
-        // Ваш код для отображения команд животного
-    }
 
-    /**
-     * обучение новой команде
-     */
-    private void trainNewCommand() {
-        // Ваш код для обучения новой команде животного
-    }
 
     /**
      * вывод животных отсортированных по дате рождения

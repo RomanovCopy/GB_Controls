@@ -93,6 +93,7 @@ public class PetRegistryModel {
         menu.put(4, "Все животные");
         menu.put(5, "Сортировка по дате рождения");
         menu.put(6, "Всего животных");
+        menu.put(7, "Сохранить реестр на диск");
         menu.put(0, "Выход");
     }
 
@@ -163,6 +164,57 @@ public class PetRegistryModel {
     }
 
     /**
+     * вывод доступных команд животного
+     */
+    public Animal displayAnimalCommands() {
+        displayAllAnimals();
+        displayMessage("Введите Id интересующего вас животного:");
+        int id=inputInt();
+        Animal animal=null;
+        for(var item:animals){
+            if(item.getId()==id){
+                animal=item;
+                break;
+            }
+        }
+        if(animal!=null){
+            if(animal.getExecutableCommands().isEmpty()){
+                displayMessage("Список команд пуст.");
+            }else {
+                displayMessage("Доступные команды:");
+                for(String name: animal.getExecutableCommands().keySet()){
+                    displayMessage(name + "  " + animal.getExecutableCommands().get(name));
+                }
+            }
+        }else {
+            displayMessage("Животного с таким Id не найдено.");
+        }
+        return animal;
+    }
+
+    /**
+     * обучение новой команде
+     */
+    public void trainNewCommand() {
+        Animal animal = displayAnimalCommands();
+        String nameCommand=null;
+        String command=null;
+        if(animal!=null){
+            displayMessage("Наименование новой команды:");
+            nameCommand = inputString();
+            displayMessage("Описание новой команды:");
+            command = inputString();
+            if(nameCommand!=null&&nameCommand.length()>3 && command!=null && command.length()>3){
+                animal.addExecutableCommand(nameCommand, command);
+                displayMessage("Команда добавлена.");
+            }
+        }
+    }
+
+
+
+
+    /**
      * выбор вида животного
      */
     private Animal selectSpecies(){
@@ -208,7 +260,7 @@ public class PetRegistryModel {
     private Animal selectWeight(Animal animal){
         Double weight = 0.0;
         while(weight==0){
-            displayMessage("Вес животного (в формате dd.dd): ");
+            displayMessage("Вес животного (в формате dd,dd): ");
             weight=inputDouble();
         }
         animal.setWeight(weight);
@@ -398,5 +450,6 @@ public class PetRegistryModel {
             System.out.println("Ошибка при обращении к внутреннему счетчику.");
         }
     }
+
 
 }

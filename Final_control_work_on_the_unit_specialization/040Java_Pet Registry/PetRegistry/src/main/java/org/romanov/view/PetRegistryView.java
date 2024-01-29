@@ -25,25 +25,6 @@ public class PetRegistryView {
         }
     }
 
-    /**
-     * вывод доступных команд для заданного животного
-     * @param animal животное
-     */
-    public void displayAnimalCommands(Animal animal) {
-        if(animal.getExecutableCommands()==null ||
-        animal.getExecutableCommands().isEmpty()){
-            System.out.println("Доступных команд нет\n");
-            return;
-        }
-        System.out.println("Список доступных команд\n");
-        int index=1;
-        for(String name:animal.getExecutableCommands().keySet()){
-            System.out.println(index+"\t"+name+"\t"+animal.getExecutableCommands().
-                    get(name)+"\t");
-            index++;
-        }
-        System.out.println("\n");
-    }
 
     /**
      * вывод сообщения
@@ -55,10 +36,10 @@ public class PetRegistryView {
 
     public void displayAnimal(Animal animal) {
         // Вывод заголовков
-        System.out.println("-".repeat(128));
+        System.out.println("-".repeat(124));
         System.out.printf("%-5s ! %-15s ! %-15s ! %-15s ! %-20s ! %-15s ! %-15s !%n",
                 "Id", "Name", "Species", "Gender", "Date Of Birth", "Weight", "Color");
-        System.out.println("-".repeat(128));
+        System.out.println("-".repeat(124));
         // Вывод данных о животном
         System.out.printf("%-5d ! %-15s ! %-15s ! %-15s ! %-20s ! %-15.2f ! %-15s !%n",
                 animal.getId(), animal.getName(), animal.getSpecies(), animal.getGender(),
