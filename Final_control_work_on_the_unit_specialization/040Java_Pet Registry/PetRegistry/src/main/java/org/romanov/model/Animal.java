@@ -1,12 +1,19 @@
 package org.romanov.model;
 
-import java.time.LocalDateTime;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 public class Animal {
 
+
+    /**
+     * идентификатор животного
+     * @param id
+     */
+    public void setId(Integer id){this.id=id;}
+    public int getId(){return id;}
+    protected int id;
 
     /**
      * кличка животного
@@ -25,14 +32,13 @@ public class Animal {
      * дата рождения животного
      * @param dateOfBirth дата рождения в формате YY-MM-DD
      */
-    public void setDateOfBirth(String dateOfBirth) {
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
-        this.dateOfBirth = LocalDateTime.parse(dateOfBirth, formatter);
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
-    public LocalDateTime getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
-    protected LocalDateTime dateOfBirth;
+    protected LocalDate dateOfBirth;
 
     /**
      * вид

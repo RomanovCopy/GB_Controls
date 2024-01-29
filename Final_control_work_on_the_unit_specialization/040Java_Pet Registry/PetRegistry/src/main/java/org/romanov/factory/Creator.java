@@ -36,7 +36,7 @@ public class Creator {
         ICreator creator = species.get(key);
         Animal animal=null;
         if (creator != null) {
-            Animal = creator.createAnimal();
+            animal = creator.createAnimal();
         } else {
             System.out.println("Вид животного с ключом " + key + " не найден");
         }

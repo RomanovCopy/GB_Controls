@@ -6,31 +6,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 
 public class PetRegistryView {
 
-    private List<String>menu;
 
     public PetRegistryView() {
-        menu = Arrays.asList(
-                "1   Новое животное",
-                "2   Доступные команды",
-                "3   Добавить новую команду",
-                "4   Все животные",
-                "5   Сортировка по дате рождения",
-                "6   Всего животных",
-                "-------------------------------",
-                "0   Выход"
-        );
     }
 
     /**
-     * вывод меню в консоль
+     * вывод нумерованного списка в консоль
      */
-    public void displayMenu() {
-        System.out.println("Основное меню.");
-        for(String item:menu){
-            System.out.println(item);
+    public void displayMenu(HashMap<Integer, String>menu) {
+        for(Integer key:menu.keySet()){
+            System.out.println(key+"  "+menu.get(key));
         }
     }
 
@@ -60,34 +51,41 @@ public class PetRegistryView {
      */
     public void displayMessage(String message) {
         System.out.println(message);
-        System.out.println("\n");
+    }
+
+    public void displayAnimal(Animal animal) {
+        // Вывод заголовков
+        System.out.println("-".repeat(128));
+        System.out.printf("%-5s ! %-15s ! %-15s ! %-15s ! %-20s ! %-15s ! %-15s !%n",
+                "Id", "Name", "Species", "Gender", "Date Of Birth", "Weight", "Color");
+        System.out.println("-".repeat(128));
+        // Вывод данных о животном
+        System.out.printf("%-5d ! %-15s ! %-15s ! %-15s ! %-20s ! %-15.2f ! %-15s !%n",
+                animal.getId(), animal.getName(), animal.getSpecies(), animal.getGender(),
+                animal.getDateOfBirth(), animal.getWeight(), animal.getColor());
     }
 
 
-    /**
-     * вывод в консоль словаря HashMap<Integer, String>
-     * @param map выводимый словарь
-     */
-    public void displayingNumberedList(HashMap<Integer, String>map){
-        if(map!=null && !map.isEmpty()){
-            for(int item: map){
-                System.out.println(item+"   "+map.get(item));
-            }
-        }
-    }
+
 
     /**
      * табулированный вывод всего списка животных
      * @param animals список животных
      */
     public void displayAnimals(List<Animal> animals) {
+        int index =1;
         System.out.println("Список животных\n");
         // Вывод заголовков
-        System.out.printf("%-15s %-15s %-15s %-5s%n", "Name", "Species", "Gender", "Date Of Birth");
+        System.out.println("-".repeat(128));
+        System.out.printf("%-5s ! %-5s ! %-15s ! %-15s ! %-15s ! %-20s ! %-15s ! %-15s !%n",
+                "№", "Id", "Name", "Species", "Gender", "Date Of Birth", "Weight", "Color", "Id");
+        System.out.println("-".repeat(128));
         // Вывод элементов коллекции
         for (Animal animal : animals) {
-            System.out.printf("%-15s %-15s %-15s %-5d%n",
-                    animal.getName(), animal.getSpecies(), animal.getGender(), animal.getDateOfBirth());
+            System.out.printf("%-5d ! %-5d ! %-15s ! %-15s ! %-15s ! %-20s ! %-15.2f ! %-15s !%n",
+                    index, animal.getId(), animal.getName(), animal.getSpecies(), animal.getGender(),
+                    animal.getDateOfBirth(), animal.getWeight(), animal.getColor());
+            index++;
         }
         System.out.println("\n");
     }
